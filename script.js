@@ -24,31 +24,64 @@ function getPlayerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    let stringToReturn;
+    let message;
+    const score = {
+        player: 0,
+        computer: 0
+    };
+
     if (computerSelection === "rock") {
         if (playerSelection === "rock") {
-            stringToReturn = "Draw! Rock versus Rock."
+            message = "Draw! Rock versus Rock."
         } else if (playerSelection === "paper") {
-            stringToReturn = "You Win! Paper beats Rock."
+            message = "You Win! Paper beats Rock."
+            score.player += 1;
         } else {
-            stringToReturn = "You Lose! Rock beats Scissors."
+            message = "You Lose! Rock beats Scissors."
+            score.computer += 1;
         }
     } else if (computerSelection === "paper") {
         if (playerSelection === "rock") {
-            stringToReturn = "You Lose! Paper beats Rock."
+            message = "You Lose! Paper beats Rock."
+            score.computer += 1;
         } else if (playerSelection === "paper") {
-            stringToReturn = "Draw! Paper versus Paper."
+            message = "Draw! Paper versus Paper."
         } else {
-            stringToReturn = "You Win! Scissors beats Paper."
+            message = "You Win! Scissors beats Paper."
+            score.player += 1;
         }
     } else {
         if (playerSelection === "rock") {
-            stringToReturn = "You Win! Rock beats Scissors."
+            message = "You Win! Rock beats Scissors."
+            score.player += 1;
         } else if (playerSelection === "paper") {
-            stringToReturn = "You Lose! Scissors beats Paper."
+            message = "You Lose! Scissors beats Paper."
+            score.computer += 1;
         } else {
-            stringToReturn = "Draw! Scissors versus Scissors."
+            message = "Draw! Scissors versus Scissors."
         }
     }
-    return stringToReturn;
+    console.log(message);
+    return score;
+}
+
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for (let index = 0; index < 5; index++) {
+        const playerChoice = getPlayerChoice();
+        const computerChoice = getComputerChoice();
+        const roundScore = playRound(playerChoice, computerChoice);
+        playerScore += roundScore.player;
+        computerScore += roundScore.computer;
+    }
+
+    if (playerScore > computerScore) {
+        console.log(`Congratulations! You win ${playerScore} to ${computerScore}.`);
+    } else if (playerScore < computerScore) {
+        console.log(`You lose ${playerScore} to ${computerScore}.`);
+    } else {
+        console.log(`It's a draw! ${playerScore} to ${computerScore}.`);
+    }
 }
